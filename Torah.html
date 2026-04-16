@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtScroll Style - Bedikas Chametz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;700;900&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+        }
+
+        body {
+            background-color: #e6e6e6; /* Gray backdrop for viewing on screen */
+            margin: 0;
+            padding: 20px;
+            font-family: 'Tinos', 'Times New Roman', serif;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        button.print-btn {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: inherit;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.2s;
+        }
+
+        button.print-btn:hover {
+            background-color: #1a252f;
+        }
+
+        /* The physical page */
+        .book-page {
+            background-color: var(--bg-color);
+            width: 100%;
+            max-width: 900px;
+            padding: 40px 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* Top Navigation Header */
+        .page-header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
+        .page-number {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* Main Chapter Title */
+        .chapter-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        /* Section Dividers & Titles */
+        .section-divider {
+            border: 0;
+            border-top: 2px solid #333;
+            margin: 25px 0 15px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        /* Pure Hebrew Original Text Block (Top) */
+        .pure-hebrew-block {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.25rem;
+            line-height: 1.55;
+            direction: rtl;
+            text-align: justify;
+            margin-bottom: 30px;
+            padding: 20px 25px;
+            background-color: #fcfcfc;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+        }
+
+        .pure-hebrew-block p {
+            margin: 0 0 12px 0;
+        }
+
+        .pure-hebrew-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Interwoven Translation Block (Middle) */
+        .main-text-section {
+            font-size: 1.05rem;
+            line-height: 1.55;
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+
+        .main-text-section .hebrew-bold {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-weight: 900;
+            font-size: 1.25rem;
+            direction: rtl;
+        }
+
+        .main-text-section .english-bold {
+            font-weight: bold;
+        }
+
+        .main-text-section .english-regular {
+            font-weight: normal;
+        }
+
+        sup {
+            font-size: 0.7em;
+            vertical-align: super;
+            line-height: 0;
+            margin-left: 2px;
+            margin-right: 2px;
+            font-weight: normal;
+        }
+
+        /* Bottom Notes Section (2 Columns) */
+        .notes-section {
+            column-count: 2;
+            column-gap: 30px;
+            font-size: 0.85rem; 
+            line-height: 1.35;
+            text-align: justify;
+        }
+
+        .note-block {
+            margin-bottom: 15px;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .note-number {
+            font-weight: bold;
+            float: left;
+            margin-right: 4px;
+        }
+
+        .source-title {
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        /* Hebrew text inside notes */
+        .note-hebrew {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: block;
+            direction: rtl;
+            text-align: right;
+            margin: 6px 0;
+            line-height: 1.4;
+        }
+
+        .note-english {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Print formatting */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+                margin: 0;
+            }
+            .controls {
+                display: none;
+            }
+            .book-page {
+                box-shadow: none;
+                max-width: 100%;
+                width: 100%;
+                padding: 0.5in;
+                min-height: auto;
+            }
+            .pure-hebrew-block {
+                background-color: white;
+                border: 1px solid #ccc;
+            }
+            @page {
+                size: letter;
+                margin: 0.5in;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+
+    <div class="book-page">
+        <!-- Top Navigation Header -->
+        <div class="page-header-nav">
+            <span>HALACHOS</span>
+            <span>BEDIKAS CHAMETZ</span>
+            <span>PESACH</span>
+            <span class="page-number">1a</span>
+        </div>
+
+        <div class="chapter-title">Chapter One</div>
+
+        <!-- 1. TOP SECTION: Pure Hebrew Original Text -->
+        <div class="pure-hebrew-block">
+            <p><strong>שְׁאֵלָה:</strong> הַאִם אֶפְשָׁר לְקַיֵּם מִצְוַת בְּדִיקַת חָמֵץ עַל יְדֵי פָּנָס חַשְׁמַלִּי, אוֹ צָרִיךְ לִהְיוֹת דַּוְקָא נֵר שַׁעֲוָה וְכַיּוֹצֵא בּוֹ?</p>
+            <p><strong>תְּשׁוּבָה:</strong> לִכְאוֹרָה יֵשׁ מָקוֹם לְהַחְמִיר, הוֹאִיל וַהֲלָכָה פְּסוּקָה הִיא (בִּפְסָחִים ז: וּבְשֻׁלְחָן עָרוּךְ סִימָן תלג), שֶׁאֵין בּוֹדְקִים אֶת הֶחָמֵץ לְאוֹר הָאֲבוּקָה, וְהִסְכִּימוּ רֹב הָאַחֲרוֹנִים שֶׁאַף בְּדִיעֲבַד אִם בָּדַק לְאוֹר הָאֲבוּקָה לֹא יָצָא יְדֵי חוֹבָתוֹ. וּכְמ"ש מָרָן הַחִידָ"א בְּבִרְכֵּי יוֹסֵף (סִי' תלג סק"ו). וְאוֹר הַחַשְׁמַל דּוֹמֶה לַאֲבוּקָה, כְּמוֹ שֶׁצִּדֵּד בְּשׁוּ"ת צִיץ אֱלִיעֶזֶר חֵלֶק א (סִי' כ סוֹף פֶּרֶק יא). וּרְאֵה עוֹד בָּזֶה בְּדִבְרֵי הַגָּאוֹן הָרִאשְׁ"ל רַבִּי בֶּן צִיּוֹן מֵאִיר חַי עֻזִּיאֵל בְּשׁוּ"ת מִשְׁפְּטֵי עֻזִּיאֵל (חאו"ח מה"ת, סִי' לד אוֹת ב).</p>
+            <p>אוּלָם לְדַעְתִּי נִרְאֶה שֶׁאֵין הַחַשְׁמַל נִדּוֹן כַּאֲבוּקָה. לְפִי מַה שֶּׁמְּבֹאָר בְּסֵפֶר תְּבוּאוֹת שׁוֹר (סִי' יא סק"ח), שֶׁגֶּדֶר אֲבוּקָה הוּא שֶׁהַפְּתִילוֹת חֲלוּקוֹת וְאֵין נוֹגְעוֹת זוֹ בְּזוֹ, וְהַשַּׁלְהֶבֶת שֶׁל כָּל אַחַת נוֹגַעַת בַּחֲבֶרְתָּהּ. אֲבָל כְּשֶׁהַפְּתִילוֹת נוֹגְעוֹת זוֹ בְּזוֹ, נֶחְשָׁב הַכֹּל כְּנֵר אֶחָד וְלֹא כַּאֲבוּקָה. וְכֵן כָּתַב הַמַּחֲצִית הַשֶּׁקֶל (יוֹ"ד שָׁם), בְּשֵׁם הַכְּרֵתִי וּפְלֵתִי. וְסִיֵּם, שֶׁהַנֵּר שֶׁלָּנוּ אע"פ שֶׁיֵּשׁ בּוֹ פְּתִילוֹת הַרְבֵּה, אֵין לוֹ דִּין אֲבוּקָה, שֶׁאִם לֹא כֵן אֵיךְ אָנוּ לוֹקְחִים נֵר כָּזֶה לִבְדִיקַת חָמֵץ, אֶלָּא וַדַּאי שֶׁמִּכֵּיוָן שֶׁהַפְּתִילוֹת דְּבוּקוֹת זוֹ בְּזוֹ, נֶחְשָׁב הַכֹּל כְּנֵר אֶחָד. וּפוּק חֲזִי מַאי עַמָּא דָּבָר. ע"ש. וְהוּבָא בְּדַרְכֵי תְּשׁוּבָה (סִי' יא ס"ק נח). וְכֵן מִתְבָּאֵר בִּפְרִי מְגָדִים (אוֹ"ח סִי' תלב, אֶשֶׁל אַבְרָהָם סק"ו), שֶׁדַּוְקָא כְּשֶׁיֵּשׁ רֶוַח בֵּין פְּתִילָה לִפְתִילָה נֶחְשָׁב לַאֲבוּקָה, אֲבָל כְּשֶׁהַפְּתִילוֹת מְחֻבָּרוֹת נֶחְשָׁב הַכֹּל כְּנֵר אֶחָד. וּרְאֵה עוֹד בְּכַף הַחַיִּים (סִי' רצח ס"ק טו"ב). ע"ש. וּלְפִי זֶה הוֹאִיל וְהַפְּתִילָה שֶׁל נוּרַת הַחַשְׁמַל מְחֻבֶּרֶת הֵיטֵב, נֶחְשֶׁבֶת כְּנֵר וְלֹא כַּאֲבוּקָה.</p>
+            <p>אָמְנָם הָרַהַ"ג הִלֵּל פּוֹסֵק בְּשׁוּ"ת הִלֵּל אוֹמֵר (חאו"ח סִי' רלא) יָצָא לִידּוֹן לֶאֱסֹר בְּדִיקַת חָמֵץ עַל יְדֵי פָּנָס חַשְׁמַלִּי מִטַּעַם שֶׁאָמְרוּ בַּגְּמָרָא (פְּסָחִים ח.) שֶׁהָאֲבוּקָה אִי אֶפְשָׁר לְהַכְנִיסָהּ לְחוֹרִים וְלִסְדָקִים, וא"כ גַּם בִּמְנוֹרַת חַשְׁמַל הֲרֵי אִי אֶפְשָׁר לְהַכְנִיסָהּ לְחוֹרִים וְלִסְדָקִים. אוּלָם בֶּאֱמֶת בְּפָנָס חַשְׁמַלִּי הַמִּטַּלְטֵל וְיָכוֹל לְהוֹבִילוֹ עִמּוֹ לְאָן שֶׁיִּרְצֶה וְלִבְדֹּק בּוֹ בְּחוֹרִים וּבִסְדָקִים, לֹא שַׁיָּךְ טַעַם זֶה לֶאֱסֹר.</p>
+            <p>וְכֵן מַה שֶּׁכָּתַב בְּשׁוּ"ת הִלֵּל אוֹמֵר שָׁם, שֶׁהַטַּעַם שֶׁאָמְרוּ בַּגְּמָרָא לְגַבֵּי הָאֲבוּקָה, מִפְּנֵי שֶׁהוּא נִבְעָת וּמִתְיָרֵא שֶׁלֹּא יַבְעִיר אֶת הַבַּיִת, וְאֵין דַּעְתּוֹ עַל הַבְּדִיקָה כָּרָאוּי, שַׁיָּךְ גַּם לְגַבֵּי חַשְׁמַל, שֶׁהוּא טָרוּד בִּבְדִיקָתוֹ, מִפְּנֵי שֶׁחוֹשֵׁשׁ פֶּן יְקַבֵּל זֶרֶם וְיִסְתַּכֵּן, וְלֹא יִבְדֹּק יָפֶה. הִנֵּה בְּפָנָס חַשְׁמַלִּי הַמֻּפְעָל עַל יְדֵי סוֹלְלָה, בְּוַדַּאי שֶׁאֵין לָחוּשׁ לְהַטְרָדָה כְּלָל. וַאֲפִלּוּ בְּפָנָס חַשְׁמַלִּי הַמֻּפְעָל עַל יְדֵי חוּטֵי חַשְׁמַל, אֵין לָחוּשׁ כְּלָל לְהַטְרָדָה, כְּשֶׁמִּשְׁתַּמְּשִׁים עַל פִּי כְּלָלֵי הַזְּהִירוּת הַמְּקֻבָּלִים, (שֶׁאֵין יָדָיו רְטֻבּוֹת בְּמַיִם וְכַדּוֹמֶה), וּבִפְרָט כַּיּוֹם שֶׁחוּטֵי הַחַשְׁמַל מְצֻפִּים בְּחֹמֶר בִּדּוּד, בְּאֹפֶן שֶׁהַנּוֹגֵעַ בָּהֶם מוּגָן מִקַּבָּלַת זֶרֶם, לְפִיכָךְ אֵין מָקוֹם לְהַחְמִיר כְּלָל.</p>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-title">TRANSLATION & ELUCIDATION</div>
+
+        <!-- 2. MIDDLE SECTION: Interwoven Translation (ArtScroll Style) -->
+        <div class="main-text-section">
+            <span class="hebrew-bold">שְׁאֵלָה: הַאִם אֶפְשָׁר לְקַיֵּם מִצְוַת בְּדִיקַת חָמֵץ עַל יְדֵי פָּנָס חַשְׁמַלִּי, אוֹ צָרִיךְ לִהְיוֹת דַּוְקָא נֵר שַׁעֲוָה וְכַיּוֹצֵא בּוֹ?</span> — 
+            <span class="english-bold">Question: Is it permissible to fulfill the mitzvah of searching for <i>chametz</i></span> <span class="english-regular">[leavened bread on the night before Passover]</span> <span class="english-bold">using an electric flashlight, or must it specifically be a wax candle or something similar?</span> 
+            
+            <span class="hebrew-bold">תְּשׁוּבָה: לִכְאוֹרָה יֵשׁ מָקוֹם לְהַחְמִיר,</span> — 
+            <span class="english-bold">Answer: Seemingly, there is room to be stringent</span> <span class="english-regular">[and forbid the use of a flashlight],</span> 
+            
+            <span class="hebrew-bold">הוֹאִיל וַהֲלָכָה פְּסוּקָה הִיא (בִּפְסָחִים ז: וּבְשֻׁלְחָן עָרוּךְ סִימָן תלג), שֶׁאֵין בּוֹדְקִים אֶת הֶחָמֵץ לְאוֹר הָאֲבוּקָה,</span> — 
+            <span class="english-bold">since it is a decided law (in <i>Tractate Pesachim</i> 7b and in the <i>Shulchan Aruch</i>, <i>Orach Chaim</i> Chapter 433) that one does not search for <i>chametz</i> by the light of a torch,</span><sup>1</sup> 
+            
+            <span class="hebrew-bold">וְהִסְכִּימוּ רֹב הָאַחֲרוֹנִים שֶׁאַף בְּדִיעֲבַד אִם בָּדַק לְאוֹר הָאֲבוּקָה לֹא יָצָא יְדֵי חוֹבָתוֹ.</span> — 
+            <span class="english-bold">and most <i>Acharonim</i> (later authorities) agreed that even post-facto (<i>b'diavad</i>), if one searched by the light of a torch, he has not fulfilled his obligation</span> <span class="english-regular">[and must search again with a proper candle].</span> 
+            
+            <span class="hebrew-bold">וּכְמ"ש מָרָן הַחִידָ"א בְּבִרְכֵּי יוֹסֵף (סִי' תלג סק"ו).</span> — 
+            <span class="english-bold">And as our master the Chida wrote in <i>Birkei Yosef</i> (Chapter 433, Sub-section 6).</span><sup>2</sup> 
+            
+            <span class="hebrew-bold">וְאוֹר הַחַשְׁמַל דּוֹמֶה לַאֲבוּקָה, כְּמוֹ שֶׁצִּדֵּד בְּשׁוּ"ת צִיץ אֱלִיעֶזֶר חֵלֶק א (סִי' כ סוֹף פֶּרֶק יא).</span> — 
+            <span class="english-bold">And electric light is considered similar to a torch</span> <span class="english-regular">[because of its intense brightness and wide beam],</span> <span class="english-bold">as suggested in the Responsa <i>Tzitz Eliezer</i> Vol. 1 (Chapter 20, end of Section 11).</span><sup>3</sup> 
+            
+            <span class="hebrew-bold">וּרְאֵה עוֹד בָּזֶה בְּדִבְרֵי הַגָּאוֹן הָרִאשְׁ"ל רַבִּי בֶּן צִיּוֹן מֵאִיר חַי עֻזִּיאֵל בְּשׁוּ"ת מִשְׁפְּטֵי עֻזִּיאֵל (חאו"ח מה"ת, סִי' לד אוֹת ב).</span> — 
+            <span class="english-bold">And see further on this in the writings of the Gaon, the Rishon LeZion, Rabbi Ben-Zion Meir Hai Uziel in Responsa <i>Mishpetei Uziel</i> (<i>Orach Chaim</i>, Second Edition, Chapter 34, Letter 2).</span><sup>4</sup> 
+            
+            <span class="hebrew-bold">אוּלָם לְדַעְתִּי נִרְאֶה שֶׁאֵין הַחַשְׁמַל נִדּוֹן כַּאֲבוּקָה.</span> — 
+            <span class="english-bold">However, in my opinion, it appears that electricity is not judged halachically as a torch.</span> 
+            
+            <span class="hebrew-bold">לְפִי מַה שֶּׁמְּבֹאָר בְּסֵפֶר תְּבוּאוֹת שׁוֹר (סִי' יא סק"ח), שֶׁגֶּדֶר אֲבוּקָה הוּא שֶׁהַפְּתִילוֹת חֲלוּקוֹת וְאֵין נוֹגְעוֹת זוֹ בְּזוֹ, וְהַשַּׁלְהֶבֶת שֶׁל כָּל אַחַת נוֹגַעַת בַּחֲבֶרְתָּהּ.</span> — 
+            <span class="english-bold">According to what is explained in the book <i>Tevuot Shor</i> (Chapter 11, Sub-section 8), the definition of a torch is that the wicks are separate and do not touch each other, while the flame of each touches the other</span> <span class="english-regular">[creating a combined, larger fire].</span><sup>5</sup> 
+            
+            <span class="hebrew-bold">אֲבָל כְּשֶׁהַפְּתִילוֹת נוֹגְעוֹת זוֹ בְּזוֹ, נֶחְשָׁב הַכֹּל כְּנֵר אֶחָד וְלֹא כַּאֲבוּקָה. וְכֵן כָּתַב הַמַּחֲצִית הַשֶּׁקֶל (יוֹ"ד שָׁם), בְּשֵׁם הַכְּרֵתִי וּפְלֵתִי.</span> — 
+            <span class="english-bold">But when the wicks touch each other, the entirety is considered a single candle and not a torch. And this was also written by the <i>Machatzit HaShekel</i> (<i>Yoreh Deah</i>, <i>loc. cit.</i>) in the name of the <i>Krethi u'Plethi</i>.</span><sup>6</sup> 
+            
+            <span class="hebrew-bold">וְסִיֵּם, שֶׁהַנֵּר שֶׁלָּנוּ אע"פ שֶׁיֵּשׁ בּוֹ פְּתִילוֹת הַרְבֵּה, אֵין לוֹ דִּין אֲבוּקָה, שֶׁאִם לֹא כֵן אֵיךְ אָנוּ לוֹקְחִים נֵר כָּזֶה לִבְדִיקַת חָמֵץ, אֶלָּא וַדַּאי שֶׁמִּכֵּיוָן שֶׁהַפְּתִילוֹת דְּבוּקוֹת זוֹ בְּזוֹ, נֶחְשָׁב הַכֹּל כְּנֵר אֶחָד.</span> — 
+            <span class="english-bold">And he concluded, that our standard candle, even though it contains many wicks, does not have the halachic status of a torch; for if it did, how could we take such a candle for the searching of <i>chametz</i>? Rather, since the wicks are stuck together, it is certainly all considered as one candle.</span> 
+            
+            <span class="hebrew-bold">וּפוּק חֲזִי מַאי עַמָּא דָּבָר. ע"ש. וְהוּבָא בְּדַרְכֵי תְּשׁוּבָה (סִי' יא ס"ק נח).</span> — 
+            <span class="english-bold">And "go out and see what the people do"</span> <span class="english-regular">[popular custom validates this].</span> <span class="english-bold">And this is cited in <i>Darchei Teshuvah</i> (Chapter 11, Sub-section 58).</span> 
+            
+            <span class="hebrew-bold">וְכֵן מִתְבָּאֵר בִּפְרִי מְגָדִים (אוֹ"ח סִי' תלב, אֶשֶׁל אַבְרָהָם סק"ו), שֶׁדַּוְקָא כְּשֶׁיֵּשׁ רֶוַח בֵּין פְּתִילָה לִפְתִילָה נֶחְשָׁב לַאֲבוּקָה, אֲבָל כְּשֶׁהַפְּתִילוֹת מְחֻבָּרוֹת נֶחְשָׁב הַכֹּל כְּנֵר אֶחָד.</span> — 
+            <span class="english-bold">And this is also explained in the <i>Pri Megadim</i> (<i>Orach Chaim</i> Chapter 432, <i>Eshel Avraham</i> Sub-section 6), that it is only when there is a gap between wick and wick that it is considered a torch, but when the wicks are joined together, it is all considered as one candle.</span><sup>7</sup> 
+            
+            <span class="hebrew-bold">וּרְאֵה עוֹד בְּכַף הַחַיִּים (סִי' רצח ס"ק טו"ב). ע"ש. וּלְפִי זֶה הוֹאִיל וְהַפְּתִילָה שֶׁל נוּרַת הַחַשְׁמַל מְחֻבֶּרֶת הֵיטֵב, נֶחְשֶׁבֶת כְּנֵר וְלֹא כַּאֲבוּקָה.</span> — 
+            <span class="english-bold">And see also <i>Kaf HaChaim</i> (Chapter 298, Sub-sections 15-17)... And according to this, since the filament of an electric bulb is firmly connected together, it is considered a candle and not a torch.</span> 
+            
+            <span class="hebrew-bold">אָמְנָם הָרַהַ"ג הִלֵּל פּוֹסֵק בְּשׁוּ"ת הִלֵּל אוֹמֵר (חאו"ח סִי' רלא) יָצָא לִידּוֹן לֶאֱסֹר בְּדִיקַת חָמֵץ עַל יְדֵי פָּנָס חַשְׁמַלִּי מִטַּעַם שֶׁאָמְרוּ בַּגְּמָרָא (פְּסָחִים ח.) שֶׁהָאֲבוּקָה אִי אֶפְשָׁר לְהַכְנִיסָהּ לְחוֹרִים וְלִסְדָקִים, וא"כ גַּם בִּמְנוֹרַת חַשְׁמַל הֲרֵי אִי אֶפְשָׁר לְהַכְנִיסָהּ לְחוֹרִים וְלִסְדָקִים.</span> — 
+            <span class="english-bold">Admittedly, the great Rabbi Hillel Posek, in Responsa <i>Hillel Omer</i> (<i>Orach Chaim</i> Chapter 231), ruled to forbid searching with an electric flashlight.</span> <span class="english-regular">[His reasoning was]</span> <span class="english-bold">because the Gemara (<i>Pesachim</i> 8a) states that a torch cannot be inserted into holes and cracks, and if so, an electric lamp likewise cannot be inserted into holes and cracks.</span><sup>8</sup> 
+            
+            <span class="hebrew-bold">אוּלָם בֶּאֱמֶת בְּפָנָס חַשְׁמַלִּי הַמִּטַּלְטֵל וְיָכוֹל לְהוֹבִילוֹ עִמּוֹ לְאָן שֶׁיִּרְצֶה וְלִבְדֹּק בּוֹ בְּחוֹרִים וּבִסְדָקִים, לֹא שַׁיָּךְ טַעַם זֶה לֶאֱסֹר.</span> — 
+            <span class="english-bold">However, in truth, with a portable electric flashlight that one can carry with him wherever he wishes and check inside holes and cracks, this reason for prohibition does not apply.</span> 
+            
+            <span class="hebrew-bold">וְכֵן מַה שֶּׁכָּתַב בְּשׁוּ"ת הִלֵּל אוֹמֵר שָׁם, שֶׁהַטַּעַם שֶׁאָמְרוּ בַּגְּמָרָא לְגַבֵּי הָאֲבוּקָה, מִפְּנֵי שֶׁהוּא נִבְעָת וּמִתְיָרֵא שֶׁלֹּא יַבְעִיר אֶת הַבַּיִת, וְאֵין דַּעְתּוֹ עַל הַבְּדִיקָה כָּרָאוּי, שַׁיָּךְ גַּם לְגַבֵּי חַשְׁמַל, שֶׁהוּא טָרוּד בִּבְדִיקָתוֹ, מִפְּנֵי שֶׁחוֹשֵׁשׁ פֶּן יְקַבֵּל זֶרֶם וְיִסְתַּכֵּן, וְלֹא יִבְדֹּק יָפֶה.</span> — 
+            <span class="english-bold">And furthermore, regarding what he wrote... that he is distracted during his search because he fears lest he receive an electric shock...</span><sup>9</sup> 
+            
+            <span class="hebrew-bold">הִנֵּה בְּפָנָס חַשְׁמַלִּי הַמֻּפְעָל עַל יְדֵי סוֹלְלָה, בְּוַדַּאי שֶׁאֵין לָחוּשׁ לְהַטְרָדָה כְּלָל. וַאֲפִלּוּ בְּפָנָס חַשְׁמַלִּי הַמֻּפְעָל עַל יְדֵי חוּטֵי חַשְׁמַל, אֵין לָחוּשׁ כְּלָל לְהַטְרָדָה... בְּאֹפֶן שֶׁהַנּוֹגֵעַ בָּהֶם מוּגָן מִקַּבָּלַת זֶרֶם, לְפִיכָךְ אֵין מָקוֹם לְהַחְמִיר כְּלָל.</span> — 
+            <span class="english-bold">Behold, with an electric flashlight powered by a battery, there is certainly no concern for distraction whatsoever. And even with an electric lamp powered by electrical wires, there is no concern... therefore, there is no room to be stringent at all.</span>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-title">NOTES & SOURCES</div>
+
+        <!-- 3. BOTTOM SECTION: Notes with full Hebrew and English Sources -->
+        <div class="notes-section">
+            
+            <div class="note-block">
+                <span class="note-number">1. </span> <span class="source-title">Pesachim 7b & Shulchan Aruch:</span> The fundamental halachah regarding the prohibition of searching with a torch. 
+                <span class="note-hebrew">תנו רבנן: אין בודקין לא לאור החמה, ולא לאור הלבנה, ולא לאור האבוקה, אלא לאור הנר. (פסחים ז:) ובשולחן ערוך נפסקה הלכה: בודקים את החמץ לאור הנר... ולא לאור האבוקה. (אורח חיים תלג:א)</span>
+                <span class="note-english">The Sages taught: One does not search for chametz by the light of the sun, nor by the light of the moon, nor by the light of a torch, but rather by the light of a candle. (Pesachim 7b). And the Shulchan Aruch rules: We search for the chametz by the light of a candle... and not by the light of a torch. (Orach Chaim 433:1).</span>
+            </div>
+
+            <div class="note-block">
+                <span class="note-number">2. </span> <span class="source-title">Birkei Yosef (OC 433:6):</span> The Chida rules that an improper search must be repeated.
+                <span class="note-hebrew">ואם עבר ובדק לאור האבוקה, לא יצא ידי חובתו, וצריך לחזור ולבדוק לאור הנר.</span>
+                <span class="note-english">And if one transgressed and searched by the light of a torch, he has not fulfilled his obligation, and he must return and search by the light of a candle.</span>
+            </div>
+
+            <div class="note-block">
+                <span class="note-number">3. </span> <span class="source-title">Responsa Tzitz Eliezer (Vol 1, 20:11):</span> Comparing electricity to a torch.
+                <span class="note-hebrew">אור החשמל דינו כאבוקה שאי אפשר להכניסו לחורים ולסדקים, ולכן אין לבדוק בו את החמץ.</span>
+                <span class="note-english">The status of electric light is like a torch, as it cannot be inserted into holes and cracks, and therefore one should not search for chametz with it.</span>
+            </div>
+
+            <div class="note-block">
+                <span class="note-number">4. </span> <span class="source-title">Mishpetei Uziel (OC, 2nd ed. 34:2):</span> The Sephardic Chief Rabbi's stringency.
+                <span class="note-hebrew">ראוי להחמיר שלא לבדוק חמץ על ידי פנס חשמלי מפני שדומה לאבוקה ויש בו מן החשש שמא לא יבדוק יפה.</span>
+                <span class="note-english">It is proper to be stringent and not search for chametz using an electric flashlight because it is similar to a torch, and there is a concern that one will not search well.</span>
+            </div>
+
+            <div class="note-block">
+                <span class="note-number">5. </span> <span class="source-title">Tevuot Shor (11:8):</span> Defining exactly what constitutes a torch.
+                <span class="note-hebrew">גדר אבוקה הוא כשהפתילות חלוקות ואין נוגעות זו בזו, והשלהבת של כל אחת נוגעת בחברתה.</span>
+                <span class="note-english">The definition of a torch is when the wicks are separate and do not touch each other, but the flame of each touches the other.</span>
+            </div>
+
+            <div class="note-block">
+                <span class="note-number">6. </span> <span class="source-title">Machatzit HaShekel (YD 11):</span> A multi-wick candle is not a torch if the wicks touch.
+                <span class="note-hebrew">הנר שלנו אף על פי שיש בו פתילות הרבה אין לו דין אבוקה, אלא ודאי שמכיון שהפתילות דבוקות זו בזו, נחשב הכל כנר אחד.</span>
+                <span class="note-english">Our candle, even though it contains many wicks, does not have the halachic status of a torch; rather, since the wicks are stuck together, it is all considered as one candle.</span>
+            </div>
+
+            <div class="note-block">
+                <span class="note-number">7. </span> <span class="source-title">Pri Megadim (Eshel Avraham 432:6):</span> Reaffirming the difference between gaps and joined wicks.
+                <span class="note-hebrew">דוקא כשיש רווח בין פתילה לפתילה נחשב לאבוקה, אבל כשהפתילות מחוברות נחשב הכל כנר אחד.</span>
+                <span class="note-english">Specifically when there is a gap between wick and wick it is considered a torch, but when the wicks are joined together, it is all considered as one candle.</span>
+            </div>
+
+            <div class="note-block">
+                <span class="note-number">8. </span> <span class="source-title">Responsa Hillel Omer (OC 231):</span> The specific objection to using a flashlight.
+                <span class="note-hebrew">יצא לידון לאסור בדיקת חמץ על ידי פנס חשמלי מטעם שאמרו בגמרא (פסחים ח.) שהאבוקה אי אפשר להכניסה לחורים ולסדקים.</span>
+                <span class="note-english">I have concluded to forbid searching for chametz with an electric flashlight based on the reason stated in the Gemara (Pesachim 8a), that a torch cannot be inserted into holes and cracks.</span>
+            </div>
+
+            <div class="note-block">
+                <span class="note-number">9. </span> <span class="source-title">Pesachim 8a:</span> The two fundamental reasons a torch is invalid.
+                <span class="note-hebrew">מאי טעמא? אמר רב נחמן בר יצחק: אבוקה אי אפשר להכניסה לחורים ולסדקים. רב פפא אמר: אבוקה מבעית.</span>
+                <span class="note-english">What is the reason [one cannot use a torch]? Rav Nachman bar Yitzchak said: A torch cannot be inserted into holes and cracks. Rav Pappa said: A torch terrifies [the searcher, lest he burn his house down, preventing proper concentration].</span>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
